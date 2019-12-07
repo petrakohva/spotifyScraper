@@ -10,9 +10,18 @@ from emailsender import sendEmail
 # In Flames
 urls = ['https://open.spotify.com/artist/57ylwQTnFnIhJh4nu4rxCs', 'https://open.spotify.com/artist/3ZztVuWxHzNpl0THurTFCv', 'https://open.spotify.com/artist/33BnCqtsMZSw7LlPBwzmmH']
 txt_file_names = ["inFlames.txt", "architects.txt", "atlas.txt"]
-i = 0
+
+# Fuktio joka käyttää parametreina urlia ja tekstitiedoston nimeä
+# HUOM url lista ja txtFile lista pitää olla synkissä eli idex paikalla oleva url täytyy viitata esittäjään
+# ESIM nyt urls[0] on InFlamesin sivu spotifyssä
 def pepenerikoinen(url, filename):
 
+# emailpohja
+    email_message = """\
+Subject: UUTTA MUSIIKKIA artistilta {artisti}!
+
+löydetty uusi albumi: """.format(artisti = filename.rstrip(".txt"))
+    
 # ~Listat~
 
 # Lista, johon kerätään linkkien sisältö
@@ -24,7 +33,6 @@ def pepenerikoinen(url, filename):
     # Lista, johon kerätään vain albumin nimitieto, sekä tekstitiedoston lista
     albumsOnSite = []
     albums_in_txtfile = []
-
 
     # haetaan urlin mukaista verkkosivua ja kirjoitetaan sivun data muuttujaan
     response = requests.get(url)
@@ -53,12 +61,21 @@ def pepenerikoinen(url, filename):
         # tallennetaan uusi albumilista
     for album in albumsOnSite:    
         if album not in albums_in_txtfile:
-            sendEmail(album)
+            sendEmail(email_message.encode("utf-8") + album.encode("utf-8"))
             with open(filename, "w") as f:
                 for line in albumsOnSite:
                     f.write(line + "\n")
 
-for url in urls:
-    pepenerikoinen(url,txt_file_names[i])
-    i = i+1
-                        
+# Ohjelma ajaa kaikki urlit mitä käyttäjä on listannut
+# ikuisesti
+
+# runTwicePerDay = 60*60*12
+while True:
+    i = 0
+    print("selaa...")
+    for url in urls:
+        print(txt_file_names[i].rstrip(".txt"))
+        pepenerikoinen(url,txt_file_names[i])
+        i = i+1
+    print("selaus valmis nukkuu 10 sec")
+    time.sleep(10)                    
