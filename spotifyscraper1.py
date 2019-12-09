@@ -8,19 +8,19 @@ from emailsender import sendEmail
 
 # Linkitys artistien Spotify -sivuille
 # In Flames
-urls = ['https://open.spotify.com/artist/57ylwQTnFnIhJh4nu4rxCs', 'https://open.spotify.com/artist/3ZztVuWxHzNpl0THurTFCv', 'https://open.spotify.com/artist/33BnCqtsMZSw7LlPBwzmmH']
-txt_file_names = ["inFlames.txt", "architects.txt", "atlas.txt"]
+urls = ['https://open.spotify.com/artist/3ZztVuWxHzNpl0THurTFCv', 'https://open.spotify.com/artist/33BnCqtsMZSw7LlPBwzmmH']
+txt_file_names = ["Architects.txt", "Atlas.txt"]
 
 # Fuktio joka käyttää parametreina urlia ja tekstitiedoston nimeä
 # HUOM url lista ja txtFile lista pitää olla synkissä eli idex paikalla oleva url täytyy viitata esittäjään
 # ESIM nyt urls[0] on InFlamesin sivu spotifyssä
-def pepenerikoinen(url, filename):
+def spotifyscraper(url, filename):
 
 # emailpohja
     email_message = """\
-Subject: UUTTA MUSIIKKIA artistilta {artisti}!
+Subject: Uutta musiikkia artistilta {artisti}!
 
-löydetty uusi albumi: """.format(artisti = filename.rstrip(".txt"))
+Löydetty uusi albumi:  """.format(artisti = filename.rstrip(".txt"))
     
 # ~Listat~
 
@@ -61,7 +61,7 @@ löydetty uusi albumi: """.format(artisti = filename.rstrip(".txt"))
         # tallennetaan uusi albumilista
     for album in albumsOnSite:    
         if album not in albums_in_txtfile:
-            sendEmail(email_message.encode("utf-8") + album.encode("utf-8"))
+            sendEmail(email_message.encode("utf-8") + "{album}\nLinkki artistin sivulle: {link}".format(link = url, album = album).encode("utf-8"))
             with open(filename, "w") as f:
                 for line in albumsOnSite:
                     f.write(line + "\n")
@@ -75,7 +75,7 @@ while True:
     print("selaa...")
     for url in urls:
         print(txt_file_names[i].rstrip(".txt"))
-        pepenerikoinen(url,txt_file_names[i])
+        spotifyscraper(url,txt_file_names[i])
         i = i+1
     print("selaus valmis nukkuu 10 sec")
     time.sleep(10)                    
