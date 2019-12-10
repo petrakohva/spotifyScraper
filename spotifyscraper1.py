@@ -8,8 +8,8 @@ from emailsender import sendEmail
 
 # Linkitys artistien Spotify -sivuille
 # In Flames
-urls = ['https://open.spotify.com/artist/3ZztVuWxHzNpl0THurTFCv', 'https://open.spotify.com/artist/33BnCqtsMZSw7LlPBwzmmH']
-txt_file_names = ["Architects.txt", "Atlas.txt"]
+urls = ['https://open.spotify.com/artist/3ZztVuWxHzNpl0THurTFCv', 'https://open.spotify.com/artist/33BnCqtsMZSw7LlPBwzmmH', 'https://open.spotify.com/artist/0v2e0oznnTaIXKLGKHphfX']
+txt_file_names = ["Architects.txt", "Atlas.txt", "Polaris.txt"]
 
 # Fuktio joka käyttää parametreina urlia ja tekstitiedoston nimeä
 # HUOM url lista ja txtFile lista pitää olla synkissä eli idex paikalla oleva url täytyy viitata esittäjään
